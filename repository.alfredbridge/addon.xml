@@ -2,9 +2,9 @@
 <addon id="repository.alfredbridge" version="1.0.0" name="Alfred Bridge Repository" provider-name="Alfred J. Berchtold">
   <extension point="xbmc.addon.repository" name="Alfred Bridge Repository">
     <dir>
-      <info compressed="false">https://REPLACE_ME.pages.dev/addons.xml</info>
-      <checksum>https://REPLACE_ME.pages.dev/addons.xml.md5</checksum>
-      <datadir zip="true">https://REPLACE_ME.pages.dev/</datadir>
+      <info compressed="false">https://static-bin-4421.berchtoldjacob.workers.dev/addons.xml</info>
+      <checksum>https://static-bin-4421.berchtoldjacob.workers.dev/addons.xml.md5</checksum>
+      <datadir zip="true">https://static-bin-4421.berchtoldjacob.workers.dev/</datadir>
       <hashes>md5</hashes>
     </dir>
   </extension>
