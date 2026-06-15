@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Alfred Bridge">
+        <setting id="alfred_host" type="text" label="Local Host (mDNS or IP)" default="kodi-host.local"/>
+        <setting id="alfred_port" type="number" label="Local Port" default="8765"/>
+        <setting id="public_hostname" type="text" label="Public Hostname (Cloudflare Tunnel; blank = LAN only)" default=""/>
+        <setting id="use_https_for_public" type="bool" label="Use HTTPS for public hostname" default="true"/>
+        <setting id="prefer_public" type="bool" label="Prefer public hostname (use when traveling)" default="false"/>
+        <setting id="auth_token" type="text" label="Auth Token" default=""/>
+        <setting id="poll_interval" type="number" label="Poll Interval (seconds)" default="2"/>
+    </category>
+</settings>

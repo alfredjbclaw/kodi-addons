@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="repository.alfredbridge" version="1.0.0" name="Alfred Bridge Repository" provider-name="alfredjbclaw">
+  <extension point="xbmc.addon.repository" name="Alfred Bridge Repository">
+    <dir>
+      <info compressed="false">{{REPO_URL}}/addons.xml</info>
+      <checksum>{{REPO_URL}}/addons.xml.md5</checksum>
+      <datadir zip="true">{{REPO_URL}}/</datadir>
+      <hashes>md5</hashes>
+    </dir>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Alfred Bridge Repository</summary>
+    <description lang="en_GB">Private repository for the Alfred Bridge Kodi addon. Hosted on Cloudflare Pages.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
