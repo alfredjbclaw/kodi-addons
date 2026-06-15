@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<addons><addon id="plugin.service.alfredbridge" version="2.0.0" name="Alfred Bridge 2" provider-name="Alfred J. Berchtold">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0" />
+  </requires>
+  <extension point="xbmc.service" library="service.py" start="startup" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Alfred Bridge 2</summary>
+    <description lang="en_GB">Polls Alfred on Mac Mini for media commands. Enables voice/AI control of Kodi via OpenClaw. v2: manifest-validated commands, multi-base (LAN + Cloudflare Tunnel) fallback, resume-position seek, quality watchdog, watch ledger.</description>
+    <platform>all</platform>
+    <news>v2.0.0 — Manifest validation, multi-base AlfredClient, resume_position seek, quality fallback, watch ledger.</news>
+  </extension>
+</addon><addon id="repository.alfredbridge" version="1.0.0" name="Alfred Bridge Repository" provider-name="Alfred J. Berchtold">
+  <extension point="xbmc.addon.repository" name="Alfred Bridge Repository">
+    <dir>
+      <info compressed="false">https://REPLACE_ME.pages.dev/addons.xml</info>
+      <checksum>https://REPLACE_ME.pages.dev/addons.xml.md5</checksum>
+      <datadir zip="true">https://REPLACE_ME.pages.dev/</datadir>
+      <hashes>md5</hashes>
+    </dir>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Alfred Bridge Repository</summary>
+    <description lang="en_GB">Private repository for the Alfred Bridge Kodi addon. Hosted on Cloudflare Pages.</description>
+    <platform>all</platform>
+  </extension>
+</addon></addons>

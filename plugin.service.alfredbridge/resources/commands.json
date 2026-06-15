@@ -1,0 +1,117 @@
+{
+  "$schema": "./commands.schema.json",
+  "version": "2.0",
+  "description": "Single source of truth for the Kodi bridge command surface. Used by the addon for dispatch validation, by the skill for documentation, and by the bridge for parameter checks.",
+  "commands": {
+    "play": {
+      "summary": "Start playback of a URL or local file.",
+      "params": {
+        "file": {"type": "string", "required": true, "description": "Stream URL, local file, or smb:// path."},
+        "item_id": {"type": "string", "required": false, "description": "Flixify item ID — enables quality fallback + watch-ledger tracking."},
+        "quality": {"type": "string", "required": false, "enum": ["1080", "720", "480"], "description": "Quality tier the URL represents. Required for fallback to function."},
+        "resume_position_seconds": {"type": "integer", "required": false, "description": "Seek to this position after playback starts. Used by the watchdog to restore position on quality downgrades."}
+      },
+      "examples": [
+        {"command": "play", "params": {"file": "smb://server/movies/example.mkv"}, "id": "play_1"},
+        {"command": "play", "params": {"file": "https://cdn/matrix.mp4", "item_id": "5720f1cd7449415de600066b", "quality": "1080"}, "id": "play_matrix"}
+      ]
+    },
+    "pause": {
+      "summary": "Toggle pause/resume of active playback.",
+      "params": {}
+    },
+    "stop": {
+      "summary": "Stop playback and clear the current item.",
+      "params": {}
+    },
+    "volume": {
+      "summary": "Set the application volume.",
+      "params": {
+        "level": {"type": "integer", "required": true, "min": 0, "max": 100, "description": "Volume 0-100."}
+      }
+    },
+    "mute": {
+      "summary": "Mute or unmute the application audio.",
+      "params": {
+        "mute": {"type": "boolean", "required": false, "default": true, "description": "true to mute, false to unmute. Accepts the alias 'muted' for backwards compatibility."}
+      }
+    },
+    "notify": {
+      "summary": "Show a toast notification on the Kodi UI.",
+      "params": {
+        "title": {"type": "string", "required": true},
+        "message": {"type": "string", "required": true},
+        "duration_ms": {"type": "integer", "required": false, "default": 5000}
+      }
+    },
+    "input": {
+      "summary": "Send a remote-control input action to the UI.",
+      "params": {
+        "action": {"type": "string", "required": true, "enum": ["up", "down", "left", "right", "select", "back", "home"]}
+      }
+    },
+    "activate_window": {
+      "summary": "Navigate to a Kodi top-level window.",
+      "params": {
+        "window": {"type": "string", "required": true, "examples": ["Home", "Music", "Videos", "AddonBrowser", "Settings"]}
+      }
+    },
+    "activate_addon": {
+      "summary": "Launch a specific Kodi addon by its addon id.",
+      "params": {
+        "addon_id": {"type": "string", "required": true, "examples": ["flixify.com", "plugin.video.youtube"]}
+      }
+    },
+    "browse": {
+      "summary": "List the contents of a Kodi directory (smb://, file://, or plugin://). Caches the result for select_item.",
+      "params": {
+        "path": {"type": "string", "required": true, "description": "Directory path. plugin:// URLs are supported despite older docs to the contrary."}
+      }
+    },
+    "select_item": {
+      "summary": "Select an item from the most recent browse() result by 0-based index or by exact file_path.",
+      "params": {
+        "index": {"type": "integer", "required": false, "description": "0-based position in the last browse result."},
+        "file_path": {"type": "string", "required": false, "description": "Exact file path string from the browse result."}
+      },
+      "notes": "Must supply exactly one of index or file_path."
+    },
+    "seek": {
+      "summary": "Seek to an absolute position in the current playback.",
+      "params": {
+        "time": {"type": "string", "required": false, "description": "HH:MM:SS or MM:SS string."},
+        "seconds": {"type": "integer", "required": false, "description": "Absolute position in seconds."}
+      },
+      "notes": "Provide either time or seconds, not both."
+    },
+    "step": {
+      "summary": "Jump forward or backward by a number of seconds.",
+      "params": {
+        "direction": {"type": "string", "required": true, "enum": ["forward", "backward"]},
+        "seconds": {"type": "integer", "required": true, "min": 1}
+      }
+    },
+    "set_speed": {
+      "summary": "Set playback speed (negative = reverse).",
+      "params": {
+        "speed": {"type": "integer", "required": true, "description": "1 = normal, 2 = 2x, -1 = reverse, etc."}
+      }
+    },
+    "flixify_search": {
+      "summary": "Open Flixify search results in the addon UI.",
+      "params": {
+        "q": {"type": "string", "required": true, "description": "Search query."}
+      },
+      "notes": "Opens UI only. For Alfred-driven playback, use the Python flixify client + `play` with a direct stream URL."
+    },
+    "flixify_play": {
+      "summary": "Play a Flixify item by ID via the Kodi plugin (legacy, unreliable).",
+      "deprecated": true,
+      "params": {
+        "id": {"type": "string", "required": true},
+        "url": {"type": "string", "required": false}
+      },
+      "notes": "DEPRECATED. Routes through the Flixify Kodi plugin which is unreliable. Prefer fetching the URL via Python flixify.get_best_url() and queuing `play` directly."
+    }
+  }
+}
