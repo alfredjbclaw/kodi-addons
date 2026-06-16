@@ -84,12 +84,41 @@ def build_addons_xml(out_dir: Path):
     return addons_path
 
 
+def _format_apache_index(dir_path: Path, base_path: str = "") -> str:
+    """Apache-mod_autoindex-style listing that Kodi can parse to browse directories."""
+    rows = []
+    if base_path:
+        rows.append('<a href="../">../</a>')
+    for entry in sorted(dir_path.iterdir(), key=lambda p: (not p.is_dir(), p.name.lower())):
+        if entry.name in (".DS_Store", "index.html"):
+            continue
+        name = entry.name + ("/" if entry.is_dir() else "")
+        rows.append(f'<a href="{name}">{name}</a>')
+    body = "\n".join(rows)
+    return f"""<!doctype html>
+<html>
+<head><title>Index of /{base_path}</title></head>
+<body>
+<h1>Index of /{base_path}</h1>
+<pre>
+{body}
+</pre>
+</body>
+</html>
+"""
+
+
+def write_directory_indexes(out_dir: Path) -> None:
+    """Write Apache-style index.html in root and every subdirectory."""
+    (out_dir / "index.html").write_text(_format_apache_index(out_dir, ""))
+    for entry in out_dir.iterdir():
+        if entry.is_dir():
+            (entry / "index.html").write_text(_format_apache_index(entry, entry.name + "/"))
+
+
 def write_index_html(out_dir: Path):
-    """A tiny landing page so a casual visitor sees something neutral."""
-    html = """<!doctype html><meta charset=utf-8><title>Index</title>
-<style>body{font-family:system-ui;background:#111;color:#888;padding:40px;text-align:center}</style>
-<p>nothing to see here.</p>"""
-    (out_dir / "index.html").write_text(html)
+    """Backwards-compat shim — calls the new directory-index writer."""
+    write_directory_indexes(out_dir)
 
 
 def main() -> int:
