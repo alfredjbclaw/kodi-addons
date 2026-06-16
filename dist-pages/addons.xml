@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<addons><addon id="plugin.service.alfredbridge" version="2.0.0" name="Alfred Bridge 2" provider-name="alfredjbclaw">
+<addons><addon id="plugin.service.alfredbridge" version="2.0.1" name="Alfred Bridge 2" provider-name="alfredjbclaw">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
   <extension point="xbmc.service" library="service.py" start="startup" />
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">Alfred Bridge 2</summary>
-    <description lang="en_GB">Polls Alfred on host machine for media commands. Enables voice/AI control of Kodi via OpenClaw. v2: manifest-validated commands, multi-base (LAN + Cloudflare Tunnel) fallback, resume-position seek, quality watchdog, watch ledger.</description>
+    <description lang="en_GB">Polls Alfred on host machine for media commands.</description>
     <platform>all</platform>
-    <news>v2.0.0 — Manifest validation, multi-base AlfredClient, resume_position seek, quality fallback, watch ledger.</news>
   </extension>
 </addon><addon id="repository.alfredbridge" name="Alfred Bridge Repository" version="1.0.2" provider-name="alfredjbclaw">
     <extension point="xbmc.addon.repository" name="Alfred Bridge Repository">

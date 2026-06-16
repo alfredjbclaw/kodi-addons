@@ -51,6 +51,8 @@ def addon_id_and_version(addon_dir: Path) -> tuple[str, str]:
 
 
 def package_addon(addon_dir: Path, out_dir: Path) -> Path:
+    """Package via system `zip` command so the archive has explicit directory entries
+    (which some Kodi-on-Xbox extractors require). Falls back to ZipFile if zip is missing."""
     addon_id, version = addon_id_and_version(addon_dir)
     addon_out = out_dir / addon_id
     addon_out.mkdir(parents=True, exist_ok=True)
@@ -58,15 +60,29 @@ def package_addon(addon_dir: Path, out_dir: Path) -> Path:
     zip_path = addon_out / zip_name
     if zip_path.exists():
         zip_path.unlink()
-    with ZipFile(zip_path, "w", ZIP_DEFLATED) as zf:
-        for root, dirs, files in os.walk(addon_dir):
-            dirs[:] = [d for d in dirs if d not in EXCLUDE_NAMES]
-            for f in files:
-                if f in EXCLUDE_NAMES or f.endswith((".pyc",)):
-                    continue
-                src = Path(root) / f
-                rel = src.relative_to(addon_dir.parent)
-                zf.write(src, arcname=str(rel))
+
+    import shutil, subprocess
+    if shutil.which("zip"):
+        excludes = []
+        for pattern in EXCLUDE_NAMES:
+            excludes += ["-x", f"*{pattern}*"]
+        excludes += ["-x", "*.pyc"]
+        subprocess.run(
+            ["zip", "-r", "-q", str(zip_path), addon_dir.name, *excludes],
+            cwd=str(addon_dir.parent),
+            check=True,
+        )
+    else:
+        with ZipFile(zip_path, "w", ZIP_DEFLATED) as zf:
+            for root, dirs, files in os.walk(addon_dir):
+                dirs[:] = [d for d in dirs if d not in EXCLUDE_NAMES]
+                rel_dir = Path(root).relative_to(addon_dir.parent)
+                zf.writestr(str(rel_dir) + "/", "")
+                for f in files:
+                    if f in EXCLUDE_NAMES or f.endswith((".pyc",)):
+                        continue
+                    src = Path(root) / f
+                    zf.write(src, arcname=str(rel_dir / f))
     return zip_path
 
 
