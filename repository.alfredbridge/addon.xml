@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="repository.alfredbridge" version="1.0.0" name="Alfred Bridge Repository" provider-name="alfredjbclaw">
+<addon id="repository.alfredbridge" version="1.0.1" name="Alfred Bridge Repository" provider-name="alfredjbclaw">
   <extension point="xbmc.addon.repository" name="Alfred Bridge Repository">
     <dir>
       <info compressed="false">https://static-bin-4421.berchtoldjacob.workers.dev/addons.xml</info>
